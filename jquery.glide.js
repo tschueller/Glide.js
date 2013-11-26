@@ -1,6 +1,6 @@
 /*
  * Glide.js
- * Ver: 1.0.4
+ * Ver: 1.0.5
  * Simple & efficient jQuery slider
  * Autor: @JedrzejChalubek
  * url: http://jedrzejchalubek.com
@@ -57,7 +57,12 @@
 			navCurrentItemClass: 'slider-nav__item--current',
 
 			// {Int or Bool} Touch settings
-			touchDistance: 60
+			touchDistance: 60,
+
+			// {Function} Callback before slide change
+			beforeTransition: function() {},
+			// {Function} Callback after slide change
+			afterTransition: function() {}
 		};
 
 	/**
@@ -351,6 +356,9 @@
 		 */
 		_.pause();
 
+		// Callbacks before slide change
+		if ( isFunction(_.options.beforeTransition) ) _.options.beforeTransition.call(_);
+
 		/**
 		 * Check if current slide is first and direction is previous, then go to last slide
 		 * or current slide is last and direction is next, then go to the first slide
@@ -397,10 +405,11 @@
 
 		// Update current slide globaly
 		_.currentSlide = currentSlide;
-
-		// Callback
-		if ( (callback !== 'undefined') && (typeof callback === 'function') ) callback();
 		
+		// Callbacks after slide change
+		if ( isFunction(_.options.afterTransition) ) _.options.afterTransition.call(_);
+		if ( isFunction(callback) ) callback();
+
 		/**
 		 * Start autoplay
 		 * After slide
@@ -570,7 +579,17 @@
 		}
 
 		return supported;
-	}  
+	}
+
+	/**
+	 * Function to check function typof
+	 * @param  {Mixed}  element
+	 * @return {Boolean}
+	 */
+	function isFunction(element) {
+		if ( (element !== 'undefined') && (typeof element === 'function') ) return true;
+		return false;
+	}
 
 	$.fn[name] = function (options) {
 		return this.each(function () {

@@ -58,7 +58,7 @@ Init our slider on default options ...
 ```
 
 ##Options
-Here is all list of averaible
+Here is list of all available
 
 | Option | Default | Type | Description
 |-------|--------|-----|-----
@@ -77,6 +77,8 @@ Here is all list of averaible
 | `navItemClass` | `slider-nav__item` | string | Navigation item class
 | `navCurrentItemClass` | `slider-nav__item--current` | string | Current navigation item class
 | `touchDistance` | `60` | int/bool | Minimal touch-swipe distance to call event. False for turning off touch.
+| `beforeTransition` | `function(){}` | function | Callback before slide change
+| `afterTransition` | `function(){}` | function | Callback after slide change
 
 ##API
 
@@ -104,6 +106,10 @@ glide.jump(3, console.log('Wooo!'));
 
 
 ##Changelog
+`1.0.5` / `25.11.2013`
+
+- Added after and before transition callbacks
+
 `1.0.4` / `17.09.2013`
 
 - Refined swipe event
